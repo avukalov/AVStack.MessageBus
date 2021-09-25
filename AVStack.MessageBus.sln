@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVStack.MessageBus.Abstraction", "AVStack.MessageBus.Abstraction\AVStack.MessageBus.Abstraction.csproj", "{1D54EC76-BB17-43B4-B029-19C31FC88F6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVStack.MessageBus.RabbitMQ", "AVStack.MessageBus.RabbitMQ\AVStack.MessageBus.RabbitMQ.csproj", "{211E3447-3099-478C-8433-9CBE00336252}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{5BC0B306-0E73-450D-AA37-2E2E91536F96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApi", "Example\Example.WebApi\Example.WebApi.csproj", "{60DBB3FF-1046-4721-9D66-4C556FEB0458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVStack.MessageBus.Extensions", "AVStack.MessageBus.Extensions\AVStack.MessageBus.Extensions.csproj", "{2B779B52-E6CD-4DFF-B1B5-7091C74AD326}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{1844EB1C-1C96-440B-935D-ECC91A796510}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D54EC76-BB17-43B4-B029-19C31FC88F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D54EC76-BB17-43B4-B029-19C31FC88F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D54EC76-BB17-43B4-B029-19C31FC88F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D54EC76-BB17-43B4-B029-19C31FC88F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{211E3447-3099-478C-8433-9CBE00336252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{211E3447-3099-478C-8433-9CBE00336252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{211E3447-3099-478C-8433-9CBE00336252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{211E3447-3099-478C-8433-9CBE00336252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60DBB3FF-1046-4721-9D66-4C556FEB0458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DBB3FF-1046-4721-9D66-4C556FEB0458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60DBB3FF-1046-4721-9D66-4C556FEB0458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60DBB3FF-1046-4721-9D66-4C556FEB0458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B779B52-E6CD-4DFF-B1B5-7091C74AD326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B779B52-E6CD-4DFF-B1B5-7091C74AD326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B779B52-E6CD-4DFF-B1B5-7091C74AD326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B779B52-E6CD-4DFF-B1B5-7091C74AD326}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60DBB3FF-1046-4721-9D66-4C556FEB0458} = {5BC0B306-0E73-450D-AA37-2E2E91536F96}
+	EndGlobalSection
+EndGlobal
