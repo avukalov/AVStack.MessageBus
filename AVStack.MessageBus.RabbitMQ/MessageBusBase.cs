@@ -14,42 +14,82 @@ namespace AVStack.MessageBus.RabbitMQ
             _model = model;
         }
 
+        /// <summary>
+        /// Publish a message on RabbitMQ exchange with the specified routingKey and properties.
+        /// </summary>
+        /// <param name="exchange"></param>
+        /// <param name="routingKey"></param>
+        /// <param name="properties"></param>
+        /// <param name="message"></param>
         public virtual void Publish(string exchange, string routingKey, IBasicProperties properties, string message)
         {
             _model.BasicPublish(exchange, routingKey, false, properties, Encoding.UTF8.GetBytes(message));
         }
 
-        public virtual string BasicConsume(string queue, bool autoAck = false)
+        /// <summary>
+        /// Fetching individual messages (Pooling or "pull API").
+        /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="autoAck"></param>
+        /// <returns>Message body otherwise empty string</returns>
+        public virtual string Consume(string queue, bool autoAck = false)
         {
             var result = _model.BasicGet(queue, autoAck);
-            if (result == null) return "";
+            if (result == null)
+            {
+                return string.Empty;
+            }
+
             var message = Encoding.UTF8.GetString(result.Body.ToArray());
+
             _model.BasicAck(result.DeliveryTag, false);
             return message;
         }
-        
-        public virtual void BasicConsume(string queue, EventHandler<BasicDeliverEventArgs> onMessageReceived, bool autoAck = false)
+
+        /// <summary>
+        /// Consume message from the specified queue
+        /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="handler"></param>
+        /// <param name="autoAck"></param>
+        /// <returns>Consumer tag</returns>
+        public virtual string Consume(string queue, EventHandler<BasicDeliverEventArgs> handler, bool autoAck = false)
         {
             var consumer = new EventingBasicConsumer(_model);
-            consumer.Received += onMessageReceived;
-            _model.BasicConsume(queue, autoAck, consumer);
-        }
-        
-        public void BasicConsumeAsync(string queue, AsyncEventHandler<BasicDeliverEventArgs> onMessageReceived, bool autoAck = false)
-        {
-            var consumer = new AsyncEventingBasicConsumer(_model);
-            consumer.Received += onMessageReceived;
-            _model.BasicConsume(queue, autoAck, consumer);
+            consumer.Received += handler;
+            return _model.BasicConsume(queue, autoAck, consumer);
         }
 
-        public void BasicAck(ulong deliveryTag, bool multiple = false)
+        /// <summary>
+        /// Consume message from the specified queue asynchronously
+        /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="handler"></param>
+        /// <param name="autoAck"></param>
+        /// <returns>Consumer tag</returns>
+        public virtual string ConsumeAsync(string queue, AsyncEventHandler<BasicDeliverEventArgs> handler, bool autoAck = false)
+        {
+            var consumer = new AsyncEventingBasicConsumer(_model);
+            consumer.Received += handler;
+            return _model.BasicConsume(queue, autoAck, consumer);
+        }
+
+        /// <summary>
+        /// Acknowledge that the message has been successfully received
+        /// </summary>
+        /// <param name="deliveryTag"></param>
+        /// <param name="multiple"></param>
+        public virtual void BasicAck(ulong deliveryTag, bool multiple = false)
         {
             _model.BasicAck(deliveryTag, multiple);
         }
 
         public void Dispose()
         {
-            if(_model.IsOpen) _model.Close();
+            if (_model.IsOpen)
+            {
+                _model.Close();
+            }
             _model?.Dispose();
         }
     }

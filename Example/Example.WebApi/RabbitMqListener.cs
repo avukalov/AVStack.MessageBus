@@ -4,8 +4,10 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AVStack.MessageBus.Abstraction;
+using AVStack.MessageBus.Extensions;
 using Example.WebApi.Models;
 using Microsoft.Extensions.Hosting;
+using RabbitMQ.Client.Events;
 
 namespace Example.WebApi
 {
@@ -27,21 +29,19 @@ namespace Example.WebApi
             var consumerHot = _busFactory.CreateConsumer();
             var consumerAll = _busFactory.CreateConsumer();
             
-            consumerCold.BasicConsumeAsync("cold", async (model, ea) =>
+            consumerCold.ConsumeAsync("cold", async (model, ea) =>
             {
-                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var weatherItem = JsonSerializer.Deserialize<WeatherForecast>(message);
+                var weatherItem = Serializer.Deserialize<WeatherForecast>(ea.Body, ea.BasicProperties.ContentType);
+
                 consumerCold.BasicAck(ea.DeliveryTag);
-                
                 Console.WriteLine($"COLD ({ea.RoutingKey}) -> {weatherItem?.TemperatureC}°C");
-                
+
                 await Task.FromResult(true);
             });
-            
-            consumerMid.BasicConsumeAsync("mid", async (model, ea) =>
+
+            consumerMid.ConsumeAsync("mid", async (model, ea) =>
             {
-                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var weatherItem = JsonSerializer.Deserialize<WeatherForecast>(message);
+                var weatherItem = Serializer.Deserialize<WeatherForecast>(ea.Body, ea.BasicProperties.ContentType);
                 consumerMid.BasicAck(ea.DeliveryTag);
                 
                 Console.WriteLine($"MID ({ea.RoutingKey}) -> {weatherItem?.TemperatureC}°C");
@@ -49,10 +49,9 @@ namespace Example.WebApi
                 await Task.FromResult(true);
             });
             
-            consumerHot.BasicConsumeAsync("hot", async (model, ea) =>
+            consumerHot.ConsumeAsync("hot", async (model, ea) =>
             {
-                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var weatherItem = JsonSerializer.Deserialize<WeatherForecast>(message);
+                var weatherItem = Serializer.Deserialize<WeatherForecast>(ea.Body, ea.BasicProperties.ContentType);
                 consumerHot.BasicAck(ea.DeliveryTag);
                 
                 Console.WriteLine($"HOT ({ea.RoutingKey}) -> {weatherItem?.TemperatureC}°C");
@@ -60,10 +59,9 @@ namespace Example.WebApi
                 await Task.FromResult(true);
             });
             
-            consumerAll.BasicConsumeAsync("all", async (model, ea) =>
+            consumerAll.ConsumeAsync("all", async (model, ea) =>
             {
-                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var weatherItem = JsonSerializer.Deserialize<WeatherForecast>(message);
+                var weatherItem = Serializer.Deserialize<WeatherForecast>(ea.Body, ea.BasicProperties.ContentType);
                 consumerAll.BasicAck(ea.DeliveryTag);
                 
                 Console.WriteLine($"ALL ({ea.RoutingKey}) -> {weatherItem?.TemperatureC}°C");
