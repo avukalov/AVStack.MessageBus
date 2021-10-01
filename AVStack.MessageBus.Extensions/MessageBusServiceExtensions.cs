@@ -9,11 +9,13 @@ namespace AVStack.MessageBus.Extensions
 {
     public static class MessageBusServiceExtensions
     {
-        public static void AddMessageBus(this IServiceCollection services, Action<IConnectionFactory> factoryOptionsAction, Action<IMessageBusFactory> factoryAction = null)
+        public static void AddMessageBus(
+            this IServiceCollection services,
+            Action<IConnectionFactory> factoryOptionsAction,
+            Action<IMessageBusFactory> busFactoryAction = null)
         {
             var busFactory = MessageBusFactory.Configure(factoryOptionsAction);
-            factoryAction?.Invoke(busFactory);
-            
+            busFactoryAction?.Invoke(busFactory);
             services.TryAddSingleton(busFactory);
         }
     }

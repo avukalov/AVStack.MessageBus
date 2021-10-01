@@ -34,7 +34,6 @@ namespace AVStack.MessageBus.RabbitMQ
         {
             var connectionFactory = Configure();
             factoryOptionsAction?.Invoke(connectionFactory);
-            
             return new MessageBusFactory(connectionFactory);
         }
         
