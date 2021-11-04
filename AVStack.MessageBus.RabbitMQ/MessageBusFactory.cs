@@ -81,6 +81,24 @@ namespace AVStack.MessageBus.RabbitMQ
             }
         }
 
+        public bool BindExchange(string exchangeTo, string exchangeFrom, string routingKey)
+        {
+            // ReSharper disable once ConvertToUsingDeclaration
+            using (var model = _connection.CreateModel())
+            {
+                try
+                {
+                    model.ExchangeBind(exchangeTo, exchangeFrom, routingKey);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
+            }
+        }
+
         public bool BindQueue(string queueName, string exchangeName, string routingKey)
         {
             // ReSharper disable once ConvertToUsingDeclaration
@@ -116,10 +134,16 @@ namespace AVStack.MessageBus.RabbitMQ
 
         public void Dispose()
         {
-            if (_connection == null) return;
-            if (_connection.IsOpen) _connection.Close();
-            _connection.Dispose();
-            _connection = null;
+            if (_connection != null)
+            {
+                if (_connection.IsOpen)
+                {
+                    _connection.Close();
+                }
+                _connection.Dispose();
+                _connection = null;
+            }
+
         }
     }
 }
