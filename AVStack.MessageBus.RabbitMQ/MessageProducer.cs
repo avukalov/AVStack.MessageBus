@@ -11,5 +11,6 @@ namespace AVStack.MessageBus.RabbitMQ
         {
             _model = model;
         }
+
     }
 }

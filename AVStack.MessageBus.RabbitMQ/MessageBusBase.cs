@@ -84,6 +84,15 @@ namespace AVStack.MessageBus.RabbitMQ
             _model.BasicAck(deliveryTag, multiple);
         }
 
+        /// <summary>
+        /// Creates IBasicProperties
+        /// </summary>
+        /// <returns><see cref="IBasicProperties"/></returns>
+        public IBasicProperties CreateBasicProperties()
+        {
+            return _model.CreateBasicProperties();
+        }
+
         public void Dispose()
         {
             if (_model.IsOpen)

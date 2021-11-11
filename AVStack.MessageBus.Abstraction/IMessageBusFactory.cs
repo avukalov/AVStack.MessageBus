@@ -13,6 +13,8 @@ namespace AVStack.MessageBus.Abstraction
 
         bool DeclareQueue(string queue, bool durable = true, bool exclusive = false, bool autoDelete = false, IDictionary<string, object> properties = null);
 
+        bool BindExchange(string exchangeTo, string exchangeFrom, string routingKey);
+
         bool BindQueue(string queue, string exchange, string routingKey);
 
         IMessageProducer CreateProducer();

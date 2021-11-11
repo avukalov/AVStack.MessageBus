@@ -6,5 +6,6 @@ namespace AVStack.MessageBus.Abstraction
     public interface IMessageProducer : IDisposable
     {
         void Publish(string exchange, string routingKey, IBasicProperties properties, string message);
+        IBasicProperties CreateBasicProperties();
     }
 }
